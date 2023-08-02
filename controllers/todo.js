@@ -11,6 +11,19 @@ router.get('/get-todo', async(req, res)=> {
     }
 });
 
+router.get('/get-todo-byid', async(req, res) => {
+    try{
+        const findItem = await Todos.findOne({
+            where:{
+                id: req.query.id
+            }
+        });
+        res.status(200).json(findItem);
+    }catch(e){
+        res.status(req.statusCode).json(e);
+    }
+});
+
 router.post('/add-todo', async(req, res) => {
     try{
         const addTodo = await Todos.create({

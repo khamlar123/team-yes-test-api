@@ -38,6 +38,19 @@ router.post('/add-todo', async(req, res) => {
     }
 });
 
+router.delete('/delete-todo', async(req, res) => {
+    try{
+        const deleteItem = await Todos.destroy({
+            where:{
+                id: req.query.id
+            }
+        });
+        res.status(200).json(deleteItem);
+    }catch(e){
+        res.status(res.statusCode).json(e);
+    }
+});
+
 router.put('/update-todo', async(req, res) => {
     try{
         const findItem = await Todos.findOne({where:{id: req.body.id}});
@@ -49,8 +62,8 @@ router.put('/update-todo', async(req, res) => {
         findItem.title = req.body.title;
         findItem.desc = req.body.desc;
         findItem.status = req.body.status;
-        const updateItem = await Menu.update(
-            findItem.dataValues, {where:{id: findItem.id}}
+        const updateItem = await Todos.update(
+            findItem.dataValues, { where: { id: findItem.id } }
         );
         res.status(200).json(updateItem[0]);
 
